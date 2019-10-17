@@ -1,5 +1,7 @@
 .env
 [._]tmp
 
-data/*
-!data/**/.gitkeep
+data/*.*
+data/sql/*.*
+!data/.gitkeep
+!data/sql/.gitkeep

@@ -33,9 +33,14 @@ echo ">> Restoring ${GDB_BACKUP_FILE} dump file ..."
 export PGPASSWORD=${GDB_PASSWORD}
 backup_file=/usr/src/data/${GDB_BACKUP_FILE}
 
-pg_restore \
-    --dbname='tinigdb' \
-    --username='tinigdb' \
-    --verbose \
-    ${backup_file};
-
+if [[ ! -f ${backup_file} ]]
+then
+    echo ">> Backup file not found: ${GDB_BACKUP_FILE} ..."
+    exit 1
+else
+    pg_restore \
+        --dbname='tinigdb' \
+        --username='tinigdb' \
+        --verbose \
+        ${backup_file};
+fi

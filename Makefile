@@ -9,8 +9,7 @@ rebuild-image: recreate-volume
 	docker-compose build --no-cache
 
 update-tinigdb:
-	docker-compose up
-	docker-compose exec database_data tinigdb-update.sh
+	docker-compose exec database tinigdb-update.sh
 
 rcv: recreate-volume
 rbi: rebuild-image

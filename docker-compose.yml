@@ -11,6 +11,8 @@ services:
 
       - GDB_PASSWORD
       - GDB_BACKUP_FILE
+      - GDB_SCHEMA_NAME
+      - GDB_NEW_SCHEMA_NAME
     ports:
       - 9991:5432
     volumes:
