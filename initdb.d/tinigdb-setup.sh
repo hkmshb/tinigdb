@@ -5,7 +5,7 @@ set -e
 export PGUSER="$POSTGRES_USER"
 
 # create tinigdb
-echo "Creating tinigdb user ... using pwd: ${GDB_PASSWORD}"
+echo ">>Creating tinigdb user ... using pwd: ${GDB_PASSWORD}"
 "${psql[@]}" --dbname="$DB" <<-'EOSQL'
     CREATE USER tinigdb
     WITH CREATEDB CREATEROLE LOGIN
@@ -13,7 +13,7 @@ echo "Creating tinigdb user ... using pwd: ${GDB_PASSWORD}"
          IN ROLE postgres;
 EOSQL
 
-echo "Creating tinigdb database ..."
+echo ">> Creating tinigdb database ..."
 "${psql[@]}" --dbname="$DB" <<-'EOSQL'
     CREATE DATABASE tinigdb
     WITH TEMPLATE=template_postgis
@@ -22,16 +22,16 @@ EOSQL
 
 # Load PostGIS into both template_database and $POSTGRES_DB
 for DB in template_postgis tinigdb "$POSTGRES_DB"; do
-  echo "Loading UUID extensions into $DB"
+  echo ">>Loading UUID extensions into $DB"
   "${psql[@]}" --dbname="$DB" <<-'EOSQL'
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 EOSQL
 done
 
 # Restore borno dump file
-echo "Restoring borno dump ..."
+echo ">> Restoring ${GDB_BACKUP_FILE} dump file ..."
 export PGPASSWORD=${GDB_PASSWORD}
-backup_file=/usr/src/data/borno.backup
+backup_file=/usr/src/data/${GDB_BACKUP_FILE}
 
 pg_restore \
     --dbname='tinigdb' \
