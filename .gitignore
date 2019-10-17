@@ -1,4 +1,5 @@
 .env
 [._]tmp
 
-data/
+data/*
+!data/**/.gitkeep

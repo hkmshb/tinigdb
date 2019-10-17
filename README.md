@@ -1,10 +1,16 @@
 # tinigdb
 
-The `tinigdb` image provides a Docker container running `PostgreSQL` with `PostGIS 2.5` installed and a `tinigdb` database and user. The container is configured to restore data into the `tinigdb` database from a dump file created using `pg_dump`.
+The `tinigdb` image provides a Docker container running `PostgreSQL` with `PostGIS 2.5` installed and a `tinigdb` database and user. The container is configured to restore data into the `tinigdb` database from a dump file (created using `pg_dump`) placed inside the `./data` directory and run `.sql` scripts within `./data/sql` directory to create other database objects after the restore.
+
+**ATTENTION**: The repository does not (and SHOULD NEVER) contain the data dump and `.sql` scripts.
 
 ## Setup
 
-The produced `tinigdb` Docker image should include a postgres data dump within the `./data` directory. This dump should never be committed into the repository. The image build process, besides the required dump relies on a number of environment variables for configuring the database. Create a `.env` file from the included `.env.sample` and update as necessary. Find description for the variables below:
+**DUMP & SQL SCRIPTS**  
+Place the dump file to restore within the `data` directory found within the same location as the `Dockerfile`. To perform custom operations on the restored database, besides a schema rename which is automatically handled if the right environment variables are set (see ENV VARS section below). Create a `sql` sub-directory inside `data` and place `.sql` scripts for performing custom operations therein.  The container is configured to to automatically execute `.sql` script within the `sql` sub directory immediately after the restore operation.
+
+**ENV VARS**  
+The build process for the `tinigdb` Docker image relies on a number of environment variables for configuring the database. Create a `.env` file from the sample `.env.sample` and update as necessary. Find description for the variables below:
 
 ```
 POSTGRES_DB:
